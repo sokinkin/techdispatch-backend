@@ -28,6 +28,19 @@ public class Visit {
     @OneToMany(mappedBy = "visit")
     private List<Service> services;
 
+    public Visit() {}
+
+    public Visit(String date, String status, String description, String notes, Technician technician,
+            Location location) {
+        super();
+        this.date = date;
+        this.status = status;
+        this.description = description;
+        this.notes = notes;
+        this.technician = technician;
+        this.location = location;
+    }
+
     public Long getId() {
         return id;
     }
