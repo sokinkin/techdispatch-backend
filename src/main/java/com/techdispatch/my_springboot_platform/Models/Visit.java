@@ -12,4 +12,6 @@ public class Visit {
     private Technician technician;
     private Location location;
     private List<Service> services;
+
+    
 }
