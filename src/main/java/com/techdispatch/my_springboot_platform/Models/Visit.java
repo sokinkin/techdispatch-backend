@@ -26,7 +26,7 @@ public class Visit {
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
     @OneToMany(mappedBy = "visit")
-    private List<Service> services;
+    private List<Job> jobs;
 
     public Visit() {}
 

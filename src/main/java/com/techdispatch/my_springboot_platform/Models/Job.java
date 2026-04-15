@@ -7,7 +7,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Service {
+public class Job {
 
     @Id
     @GeneratedValue
@@ -15,12 +15,12 @@ public class Service {
     private String name;
     private String description;
     @ManyToOne
-    @JoinColumn(name="visit_id", referencedColumnName = "id")
+    @JoinColumn(name = "visit_id", referencedColumnName = "id")
     private Visit visit;
 
-    public Service() {}
+    public Job() {}
 
-    public Service(String name, String description, Visit visit) {
+    public Job(String name, String description, Visit visit) {
         super();
         this.name = name;
         this.description = description;
