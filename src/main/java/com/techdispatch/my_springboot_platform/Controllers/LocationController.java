@@ -37,4 +37,13 @@ public class LocationController {
         return locationService.addLocation(location);
     }
 
+    // ------------------------- EXTRA ENDPOINTS (TO DO) -------------------------
+
+    // GET EVERY LOCATION OF A CUSTOMER
+    @GetMapping("/by-customer")
+    public List<Location> getLocationsByCustomer(@RequestParam Long customerId) {
+        return locationService.getLocationsByCustomer(customerId);
+    }
+
+
 }

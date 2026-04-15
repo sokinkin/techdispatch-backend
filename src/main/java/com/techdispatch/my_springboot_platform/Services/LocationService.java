@@ -32,5 +32,9 @@ public class LocationService {
         locationRepository.save(location);
         return locationRepository.findAll();
     }
+
+    public List<Location> getLocationsByCustomer(Long customerId) {
+        return locationRepository.findByCustomerId(customerId);
+    }
     
 }

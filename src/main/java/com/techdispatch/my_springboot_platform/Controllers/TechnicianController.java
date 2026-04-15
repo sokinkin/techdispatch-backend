@@ -35,4 +35,6 @@ public class TechnicianController {
         return technicianService.addTechnician(technician);
     }
 
+    // ------------------------- EXTRA ENDPOINTS (TO DO) -------------------------
+
 }

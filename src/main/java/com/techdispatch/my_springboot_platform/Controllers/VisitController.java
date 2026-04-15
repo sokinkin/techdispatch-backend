@@ -35,4 +35,6 @@ public class VisitController {
         return visitService.addVisit(visit);
     }
 
+    // ------------------------- EXTRA ENDPOINTS (TO DO) -------------------------
+
 }
