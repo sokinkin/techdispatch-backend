@@ -3,6 +3,8 @@ package com.techdispatch.my_springboot_platform.Models;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -16,7 +18,8 @@ public class Visit {
     @GeneratedValue
     private Long id;
     private String date;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private VisitStatus status;
     private String description;
     private String notes;
     @ManyToOne
@@ -30,7 +33,7 @@ public class Visit {
 
     public Visit() {}
 
-    public Visit(String date, String status, String description, String notes, Technician technician,
+    public Visit(String date, VisitStatus status, String description, String notes, Technician technician,
             Location location) {
         super();
         this.date = date;
@@ -57,11 +60,11 @@ public class Visit {
         this.date = date;
     }
 
-    public String getStatus() {
+    public VisitStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(VisitStatus status) {
         this.status = status;
     }
 

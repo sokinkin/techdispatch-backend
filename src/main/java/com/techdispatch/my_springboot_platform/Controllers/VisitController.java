@@ -5,12 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techdispatch.my_springboot_platform.Models.Visit;
+import com.techdispatch.my_springboot_platform.Models.VisitStatus;
 import com.techdispatch.my_springboot_platform.Services.VisitService;
 
 @RestController
@@ -47,6 +49,11 @@ public class VisitController {
     @GetMapping("/by-technician")
     public List<Visit> getVisitsByTechnician(@RequestParam long technicianId) {
         return visitService.getVisitsByTechnician(technicianId);
+    }
+
+    @PutMapping("/status")
+    public Visit updateVisitStatus(@RequestParam long id, @RequestParam VisitStatus status) {
+        return visitService.updateVisitStatus(id, status);
     }
 
 }
