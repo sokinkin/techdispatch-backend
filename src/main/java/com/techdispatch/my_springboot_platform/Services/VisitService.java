@@ -33,4 +33,12 @@ public class VisitService {
         return visitRepository.findAll();
     }
 
+    public List<Visit> getVisitsByCustomer(Long customerId) {
+        return visitRepository.findByLocationCustomerId(customerId);
+    }
+
+    public List<Visit> getVisitsByTechnician(long technicianId) {
+        return visitRepository.findByTechnicianId(technicianId);
+    }
+
 }

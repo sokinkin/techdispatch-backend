@@ -37,4 +37,16 @@ public class VisitController {
 
     // ------------------------- EXTRA ENDPOINTS (TO DO) -------------------------
 
+    // GET EVERY VISIT OF A CUSTOMER 
+    @GetMapping("/by-customer")
+    public List<Visit> getVisitsByCustomer(@RequestParam Long customerId) {
+        return visitService.getVisitsByCustomer(customerId);
+    }
+    
+    // GET EVERY VISIT OF A TECHNICIAN
+    @GetMapping("/by-technician")
+    public List<Visit> getVisitsByTechnician(@RequestParam long technicianId) {
+        return visitService.getVisitsByTechnician(technicianId);
+    }
+
 }
