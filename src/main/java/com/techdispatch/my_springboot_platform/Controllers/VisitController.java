@@ -51,6 +51,7 @@ public class VisitController {
         return visitService.getVisitsByTechnician(technicianId);
     }
 
+    // UPDATE THE STATUS OF A VISIT
     @PutMapping("/status")
     public Visit updateVisitStatus(@RequestParam long id, @RequestParam VisitStatus status) {
         return visitService.updateVisitStatus(id, status);
