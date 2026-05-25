@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techdispatch.my_springboot_platform.DTO.VisitDto;
 import com.techdispatch.my_springboot_platform.Models.Visit;
 import com.techdispatch.my_springboot_platform.Models.VisitStatus;
 import com.techdispatch.my_springboot_platform.Services.VisitService;
@@ -23,17 +24,17 @@ public class VisitController {
     VisitService visitService;
 
     @GetMapping("/all")
-    public List<Visit> getVisits() {
+    public List<VisitDto> getVisits() {
         return visitService.getVisits();
     }
 
     @GetMapping()
-    public Visit getVisit(@RequestParam Long id) {
+    public VisitDto getVisit(@RequestParam Long id) {
         return visitService.getVisit(id);
     }
 
     @PostMapping()
-    public List<Visit> addVisit(@RequestBody Visit visit) {
+    public List<VisitDto> addVisit(@RequestBody Visit visit) {
         return visitService.addVisit(visit);
     }
 
@@ -41,19 +42,19 @@ public class VisitController {
 
     // GET EVERY VISIT OF A CUSTOMER 
     @GetMapping("/by-customer")
-    public List<Visit> getVisitsByCustomer(@RequestParam Long customerId) {
+    public List<VisitDto> getVisitsByCustomer(@RequestParam Long customerId) {
         return visitService.getVisitsByCustomer(customerId);
     }
     
     // GET EVERY VISIT OF A TECHNICIAN
     @GetMapping("/by-technician")
-    public List<Visit> getVisitsByTechnician(@RequestParam long technicianId) {
+    public List<VisitDto> getVisitsByTechnician(@RequestParam long technicianId) {
         return visitService.getVisitsByTechnician(technicianId);
     }
 
     // UPDATE THE STATUS OF A VISIT
     @PutMapping("/status")
-    public Visit updateVisitStatus(@RequestParam long id, @RequestParam VisitStatus status) {
+    public VisitDto updateVisitStatus(@RequestParam long id, @RequestParam VisitStatus status) {
         return visitService.updateVisitStatus(id, status);
     }
 

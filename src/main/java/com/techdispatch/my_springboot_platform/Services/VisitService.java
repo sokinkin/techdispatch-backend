@@ -1,5 +1,6 @@
 package com.techdispatch.my_springboot_platform.Services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.techdispatch.my_springboot_platform.DTO.VisitDto;
 import com.techdispatch.my_springboot_platform.Models.Visit;
 import com.techdispatch.my_springboot_platform.Models.VisitStatus;
 import com.techdispatch.my_springboot_platform.Repositories.VisitRepository;
@@ -18,38 +20,54 @@ public class VisitService {
     @Autowired
     VisitRepository visitRepository;
 
-    public List<Visit> getVisits() {
-        return visitRepository.findAll();
+    public List<VisitDto> getVisits() {
+        List<Visit> visits = visitRepository.findAll();
+        List<VisitDto> visitDtos = new ArrayList<>();
+        for (Visit visit : visits) {
+            visitDtos.add(VisitDto.from(visit));
+        }
+        return visitDtos;
     }
 
-    public Visit getVisit(Long id) {
+    public VisitDto getVisit(Long id) {
         Optional<Visit> visitOptional = visitRepository.findById(id);
         if (!visitOptional.isPresent())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Visit not found");
-        return visitOptional.get();
+        Visit visit = visitOptional.get();
+        return VisitDto.from(visit);
     }
 
-    public List<Visit> addVisit(Visit visit) {
+    public List<VisitDto> addVisit(Visit visit) {
         visitRepository.save(visit);
-        return visitRepository.findAll();
+        return getVisits();
     }
 
-    public List<Visit> getVisitsByCustomer(Long customerId) {
-        return visitRepository.findByLocationCustomerId(customerId);
+    public List<VisitDto> getVisitsByCustomer(Long customerId) {
+        List<Visit> visits = visitRepository.findByLocationCustomerId(customerId);
+        List<VisitDto> visitDtos = new ArrayList<>();
+        for (Visit visit : visits) {
+            visitDtos.add(VisitDto.from(visit));
+        }
+        return visitDtos;
     }
 
-    public List<Visit> getVisitsByTechnician(long technicianId) {
-        return visitRepository.findByTechnicianId(technicianId);
+    public List<VisitDto> getVisitsByTechnician(long technicianId) {
+        List<Visit> visits = visitRepository.findByTechnicianId(technicianId);
+        List<VisitDto> visitDtos = new ArrayList<>();
+        for (Visit visit : visits) {
+            visitDtos.add(VisitDto.from(visit));
+        }
+        return visitDtos;
     }
 
-    public Visit updateVisitStatus(long id, VisitStatus status) {
+    public VisitDto updateVisitStatus(long id, VisitStatus status) {
         Optional<Visit> visitOptional = visitRepository.findById(id);
         if (!visitOptional.isPresent())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Visit not found");
         Visit visit = visitOptional.get();
         visit.setStatus(status);
         visitRepository.save(visit);
-        return visit;
+        return VisitDto.from(visit);
     }
 
 }
