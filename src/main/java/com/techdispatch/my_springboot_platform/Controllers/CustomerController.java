@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techdispatch.my_springboot_platform.DTO.CustomerDto;
 import com.techdispatch.my_springboot_platform.Models.Customer;
 import com.techdispatch.my_springboot_platform.Services.CustomerService;
 
@@ -21,17 +22,17 @@ public class CustomerController {
     CustomerService customerService;
 
     @GetMapping("/all")
-    public List<Customer> getCustomers() {
+    public List<CustomerDto> getCustomers() {
         return customerService.getCustomers();
     }
 
     @GetMapping()
-    public Customer getCustomer(@RequestParam Long id) {
+    public CustomerDto getCustomer(@RequestParam Long id) {
         return customerService.getCustomer(id);
     }
 
     @PostMapping()
-    public List<Customer> addCustomer(@RequestBody Customer customer) {
+    public List<CustomerDto> addCustomer(@RequestBody Customer customer) {
         return customerService.addCustomer(customer);
     }
 

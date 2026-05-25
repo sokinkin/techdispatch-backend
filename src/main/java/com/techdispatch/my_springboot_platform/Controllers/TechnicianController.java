@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techdispatch.my_springboot_platform.DTO.TechnicianDto;
 import com.techdispatch.my_springboot_platform.Models.Technician;
 import com.techdispatch.my_springboot_platform.Services.TechnicianService;
 
@@ -21,17 +22,17 @@ public class TechnicianController {
     TechnicianService technicianService;
 
     @GetMapping("/all")
-    public List<Technician> getTechnicians() {
+    public List<TechnicianDto> getTechnicians() {
         return technicianService.getTechnicians();
     }
 
     @GetMapping()
-    public Technician getTechnician(@RequestParam Long id) {
+    public TechnicianDto getTechnician(@RequestParam Long id) {
         return technicianService.getTechnician(id);
     }
 
     @PostMapping()
-    public List<Technician> addTechnician(@RequestBody Technician technician) {
+    public List<TechnicianDto> addTechnician(@RequestBody Technician technician) {
         return technicianService.addTechnician(technician);
     }
 

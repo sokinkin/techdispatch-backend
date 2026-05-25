@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techdispatch.my_springboot_platform.DTO.JobDto;
 import com.techdispatch.my_springboot_platform.Models.Job;
 import com.techdispatch.my_springboot_platform.Services.JobService;
 
@@ -21,20 +22,20 @@ public class JobController {
     JobService jobService;
 
     @GetMapping("/all")
-    public List<Job> getJobs() {
+    public List<JobDto> getJobs() {
         return jobService.getJobs();
     }
 
     @GetMapping()
-    public Job getJob(@RequestParam Long id) {
+    public JobDto getJob(@RequestParam Long id) {
         return jobService.getJob(id);
     }
 
     @PostMapping()
-    public List<Job> addJob(@RequestBody Job job) {
+    public List<JobDto> addJob(@RequestBody Job job) {
         return jobService.addJob(job);
     }
 
     // ------------------------- EXTRA ENDPOINTS (TO DO) -------------------------
-    
+
 }
