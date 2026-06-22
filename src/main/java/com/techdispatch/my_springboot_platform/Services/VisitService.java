@@ -38,8 +38,27 @@ public class VisitService {
     }
 
     public List<VisitDto> addVisit(Visit visit) {
+        Long technicianId = visit.getTechnician() != null ? visit.getTechnician().getId() : null;
+        assertNoConflict(technicianId, visit.getDate(), null);
         visitRepository.save(visit);
         return getVisits();
+    }
+
+    // Reject a slot that is already taken by the same technician. Two visits
+    // "double-book" when they share a technician AND the exact same date string
+    // (our times are half-hour slots, so an exact match is the conflict unit).
+    // ignoreVisitId lets reschedule skip the visit it is moving.
+    private void assertNoConflict(Long technicianId, String date, Long ignoreVisitId) {
+        if (technicianId == null || date == null || date.isBlank())
+            return;
+        List<Visit> existing = visitRepository.findByTechnicianId(technicianId);
+        for (Visit other : existing) {
+            if (ignoreVisitId != null && other.getId().equals(ignoreVisitId))
+                continue;
+            if (date.equals(other.getDate()))
+                throw new ResponseStatusException(HttpStatus.CONFLICT,
+                        "Technician already has a visit at " + date);
+        }
     }
 
     public List<VisitDto> getVisitsByCustomer(Long customerId) {
@@ -66,6 +85,19 @@ public class VisitService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Visit not found");
         Visit visit = visitOptional.get();
         visit.setStatus(status);
+        visitRepository.save(visit);
+        return VisitDto.from(visit);
+    }
+
+    // Move a visit to a new date (used by the calendar drag-and-drop).
+    public VisitDto rescheduleVisit(long id, String date) {
+        Optional<Visit> visitOptional = visitRepository.findById(id);
+        if (!visitOptional.isPresent())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Visit not found");
+        Visit visit = visitOptional.get();
+        Long technicianId = visit.getTechnician() != null ? visit.getTechnician().getId() : null;
+        assertNoConflict(technicianId, date, id);
+        visit.setDate(date);
         visitRepository.save(visit);
         return VisitDto.from(visit);
     }

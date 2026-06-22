@@ -46,5 +46,11 @@ public class LocationController {
         return locationService.getLocationsByCustomer(customerId);
     }
 
+    // ADD A LOCATION FOR A CUSTOMER
+    @PostMapping("/for-customer")
+    public List<LocationDto> addLocationForCustomer(@RequestParam Long customerId, @RequestBody Location location) {
+        return locationService.addLocationForCustomer(customerId, location);
+    }
+
 
 }

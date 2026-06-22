@@ -40,4 +40,18 @@ public class TechnicianService {
         return getTechnicians();
     }
 
+    // Update a technician's own profile fields (used by the Settings screen).
+    public TechnicianDto updateTechnician(Long id, Technician data) {
+        Optional<Technician> optional = technicianRepository.findById(id);
+        if (!optional.isPresent())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Technician not found");
+        Technician technician = optional.get();
+        technician.setFirstName(data.getFirstName());
+        technician.setLastName(data.getLastName());
+        technician.setEmail(data.getEmail());
+        technician.setPhoneNumber(data.getPhoneNumber());
+        technicianRepository.save(technician);
+        return TechnicianDto.from(technician);
+    }
+
 }

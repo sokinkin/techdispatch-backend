@@ -58,4 +58,10 @@ public class VisitController {
         return visitService.updateVisitStatus(id, status);
     }
 
+    // RESCHEDULE A VISIT (change its date)
+    @PutMapping("/reschedule")
+    public VisitDto rescheduleVisit(@RequestParam long id, @RequestParam String date) {
+        return visitService.rescheduleVisit(id, date);
+    }
+
 }

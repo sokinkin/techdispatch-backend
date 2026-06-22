@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.techdispatch.my_springboot_platform.DTO.LocationDto;
+import com.techdispatch.my_springboot_platform.Models.Customer;
 import com.techdispatch.my_springboot_platform.Models.Location;
+import com.techdispatch.my_springboot_platform.Repositories.CustomerRepository;
 import com.techdispatch.my_springboot_platform.Repositories.LocationRepository;
 
 @Service
@@ -18,6 +20,9 @@ public class LocationService {
 
     @Autowired
     LocationRepository locationRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
 
     public List<LocationDto> getLocations() {
         List<Location> locations = locationRepository.findAll();
@@ -47,6 +52,16 @@ public class LocationService {
             locationDtos.add(LocationDto.from(location));
         }
         return locationDtos;
+    }
+
+    // Add a location that belongs to a specific customer (used in Settings).
+    public List<LocationDto> addLocationForCustomer(Long customerId, Location location) {
+        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+        if (!customerOptional.isPresent())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");
+        location.setCustomer(customerOptional.get());
+        locationRepository.save(location);
+        return getLocationsByCustomer(customerId);
     }
 
 }

@@ -40,4 +40,18 @@ public class CustomerService {
         return getCustomers();
     }
 
+    // Update a customer's own profile fields (used by the Settings screen).
+    public CustomerDto updateCustomer(Long id, Customer data) {
+        Optional<Customer> optional = customerRepository.findById(id);
+        if (!optional.isPresent())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");
+        Customer customer = optional.get();
+        customer.setName(data.getName());
+        customer.setCompanyName(data.getCompanyName());
+        customer.setEmail(data.getEmail());
+        customer.setPhoneNumber(data.getPhoneNumber());
+        customerRepository.save(customer);
+        return CustomerDto.from(customer);
+    }
+
 }
