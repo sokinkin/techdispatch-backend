@@ -13,6 +13,8 @@ public class VisitDto {
     private VisitStatus status;
     private String description;
     private String notes;
+    private String services;
+    private Double cost;
 
     private Long technicianId;
     private String technicianName;
@@ -73,6 +75,26 @@ public class VisitDto {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+
+    public String getServices() {
+        return services;
+    }
+
+
+    public void setServices(String services) {
+        this.services = services;
+    }
+
+
+    public Double getCost() {
+        return cost;
+    }
+
+
+    public void setCost(Double cost) {
+        this.cost = cost;
     }
 
 
@@ -154,7 +176,9 @@ public class VisitDto {
         dto.status = visit.getStatus();
         dto.description = visit.getDescription();
         dto.notes = visit.getNotes();
-        
+        dto.services = visit.getServices();
+        dto.cost = visit.getCost();
+
         if (visit.getTechnician() != null) {
             dto.technicianId = visit.getTechnician().getId();
             dto.technicianName = visit.getTechnician().getFirstName() 

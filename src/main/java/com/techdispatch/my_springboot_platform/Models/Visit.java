@@ -22,6 +22,8 @@ public class Visit {
     private VisitStatus status;
     private String description;
     private String notes;
+    private String services;
+    private Double cost;
     @ManyToOne
     @JoinColumn(name = "technician_id", referencedColumnName = "id")
     private Technician technician;
@@ -82,6 +84,22 @@ public class Visit {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public String getServices() {
+        return services;
+    }
+
+    public void setServices(String services) {
+        this.services = services;
+    }
+
+    public Double getCost() {
+        return cost;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
     }
 
     public Technician getTechnician() {
