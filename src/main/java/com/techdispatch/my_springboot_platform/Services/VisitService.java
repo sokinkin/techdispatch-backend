@@ -47,6 +47,32 @@ public class VisitService {
         return getVisits();
     }
 
+    // Update an existing visit's editable fields (used by the Edit dialog). Status
+    // is left unchanged here — it moves through its own status endpoint.
+    public VisitDto updateVisit(long id, Visit incoming) {
+        Optional<Visit> visitOptional = visitRepository.findById(id);
+        if (!visitOptional.isPresent())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Visit not found");
+        Visit visit = visitOptional.get();
+
+        Long technicianId = incoming.getTechnician() != null && incoming.getTechnician().getId() != null
+                ? incoming.getTechnician().getId()
+                : (visit.getTechnician() != null ? visit.getTechnician().getId() : null);
+        assertNoConflict(technicianId, incoming.getDate(), id);
+
+        visit.setDate(incoming.getDate());
+        visit.setDescription(incoming.getDescription());
+        visit.setServices(incoming.getServices());
+        visit.setCost(incoming.getCost());
+        if (incoming.getTechnician() != null)
+            visit.setTechnician(incoming.getTechnician());
+        if (incoming.getLocation() != null)
+            visit.setLocation(incoming.getLocation());
+
+        visitRepository.save(visit);
+        return VisitDto.from(visit);
+    }
+
     // Reject a slot that is already taken by the same technician. Two visits
     // "double-book" when they share a technician AND the exact same date string
     // (our times are half-hour slots, so an exact match is the conflict unit).
