@@ -48,6 +48,7 @@ Interactive docs (while the backend is running):
 | GET | `/visit/all` | List all visits |
 | GET | `/visit?id={id}` | Get one visit by id |
 | POST | `/visit` | Add a visit |
+| PUT | `/visit?id={id}` | Update a visit's details (location, technician, date, description, services, cost) |
 | GET | `/visit/by-customer?customerId={id}` | Visits for a customer |
 | GET | `/visit/by-technician?technicianId={id}` | Visits for a technician |
 | PUT | `/visit/status?id={id}&status={status}` | Update visit status |

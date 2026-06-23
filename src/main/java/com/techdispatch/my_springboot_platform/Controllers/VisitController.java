@@ -38,6 +38,11 @@ public class VisitController {
         return visitService.addVisit(visit);
     }
 
+    @PutMapping()
+    public VisitDto updateVisit(@RequestParam Long id, @RequestBody Visit visit) {
+        return visitService.updateVisit(id, visit);
+    }
+
     // ------------------------- EXTRA ENDPOINTS (TO DO) -------------------------
 
     // GET EVERY VISIT OF A CUSTOMER 
