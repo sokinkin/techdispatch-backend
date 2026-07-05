@@ -84,6 +84,9 @@ public class VisitService {
         for (Visit other : existing) {
             if (ignoreVisitId != null && other.getId().equals(ignoreVisitId))
                 continue;
+            // A cancelled visit no longer occupies its slot, so it can be rebooked.
+            if (other.getStatus() == VisitStatus.CANCELLED)
+                continue;
             if (date.equals(other.getDate()))
                 throw new ResponseStatusException(HttpStatus.CONFLICT,
                         "Technician already has a visit at " + date);
@@ -116,6 +119,15 @@ public class VisitService {
         if (!visitOptional.isPresent())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Visit not found");
         Visit visit = visitOptional.get();
+
+        // A cancelled visit is final: it cannot re-enter the workflow, and a
+        // visit that is already completed can no longer be cancelled.
+        if (visit.getStatus() == VisitStatus.CANCELLED)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "A cancelled visit cannot change status.");
+        if (status == VisitStatus.CANCELLED && visit.getStatus() == VisitStatus.COMPLETED)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "A completed visit cannot be cancelled.");
 
         // A visit may only be started on the day it is scheduled for. Starting it
         // snaps its time to the current half-hour slot (server time) so the
@@ -152,6 +164,9 @@ public class VisitService {
         if (!visitOptional.isPresent())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Visit not found");
         Visit visit = visitOptional.get();
+        if (visit.getStatus() == VisitStatus.CANCELLED)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "A cancelled visit cannot be rescheduled.");
         Long technicianId = visit.getTechnician() != null ? visit.getTechnician().getId() : null;
         assertNoConflict(technicianId, date, id);
         visit.setDate(date);

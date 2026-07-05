@@ -51,7 +51,7 @@ Interactive docs (while the backend is running):
 | PUT | `/visit?id={id}` | Update a visit's details (location, technician, date, description, services, cost) |
 | GET | `/visit/by-customer?customerId={id}` | Visits for a customer |
 | GET | `/visit/by-technician?technicianId={id}` | Visits for a technician |
-| PUT | `/visit/status?id={id}&status={status}` | Update visit status |
+| PUT | `/visit/status?id={id}&status={status}` | Update visit status (`SCHEDULED`, `IN_PROGRESS`, `COMPLETED`, `CANCELLED`) |
 | PUT | `/visit/reschedule?id={id}&date={date}` | Reschedule a visit |
 
 ## Locations — `/location`
